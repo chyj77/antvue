@@ -6,50 +6,58 @@
         collapsible
         v-model="collapsed"
         width="180px"
+        breakpoint="lg"
+        collapsedWidth="0"
+        @collapse="onCollapse"
+        @breakpoint="onBreakpoint"
       >
-      <SiderMenu :theme="navTheme" :collapsed="collapsed" />
-    </a-layout-sider>
-    <a-layout>
-      <!--<a-layout-header :style="{ background: '#fff', padding: 0 }" />-->
-      <a-layout-content style="margin: 24px 24px 0">
-          <router-view></router-view>
+        <SiderMenu :theme="navTheme" :collapsed="collapsed" />
+      </a-layout-sider>
+      <a-layout>
+        <!--<a-layout-header :style="{ background: '#fff', padding: 0 }" />-->
+        <a-layout-content style="margin: 24px 24px 0; overflow-x: scroll;">
+          <router-view :key="key"></router-view>
         </a-layout-content>
-      <a-layout-footer style="textAlign: center">
-        股票涨停数据 ©2020 Created by 陈永进
-      </a-layout-footer>
+        <a-layout-footer style="textAlign: center">股票涨停数据 ©2020 Created by 陈永进</a-layout-footer>
+      </a-layout>
     </a-layout>
-  </a-layout>
   </div>
 </template>
 
 <script>
 import SiderMenu from "./SiderMenu";
 
-  export default {
-    name:'layout',
-    data() {
+export default {
+  name: "layout",
+  data() {
     return {
       collapsed: false
-      };
+    };
+  },
+  methods: {
+    onCollapse(collapsed, type) {
+      console.log(collapsed, type);
     },
-    methods: {
-      onCollapse(collapsed, type) {
-        console.log(collapsed, type);
-      },
-      onBreakpoint(broken) {
-        console.log(broken);
-      },
-      navTheme() {
-        return this.$route.query.navTheme || "dark";
-      },
-      navLayout() {
-        return this.$route.query.navLayout || "left";
-      }
-    },    
-    components:{
-      SiderMenu,
-      }
-  };
+    onBreakpoint(broken) {
+      console.log(broken);
+    },
+    navTheme() {
+      return this.$route.query.navTheme || "dark";
+    },
+    navLayout() {
+      return this.$route.query.navLayout || "left";
+    }
+  },
+  components: {
+    SiderMenu
+  },
+  computed: {
+    key() {
+      // 只要保证 key 唯一性就可以了，保证不同页面的 key 不相同
+      return this.$route.path;
+    }
+  }
+};
 </script>
 
 <style scoped lang="less">

@@ -9,21 +9,28 @@ Vue.use(Router);
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  routes: [    
+  routes: [{
+      path: "/",
+      redirect: "/Ztsj"
+    },
     {
-        path: "/Ztsj",
-        name: "涨停数据",
-        meta: { title: "涨停数据" },
-        component: () =>
-          import("./components/Ztsj")
+      path: "/Ztsj",
+      name: "涨停数据",
+      meta: {
+        title: "涨停数据"
       },
-      {
-        path: "/ZtsjChart",
-        name: "涨停数据图",
-        meta: { title: "涨停数据图" },
-        component: () =>
-          import("./components/ZtsjChart")
+      component: () =>
+        import("./components/Ztsj")
+    },
+    {
+      path: "/ZtsjChart",
+      name: "涨停数据图",
+      meta: {
+        title: "涨停数据图"
       },
+      component: () =>
+        import("./components/ZtsjChart")
+    }
   ]
 });
 
@@ -31,7 +38,7 @@ router.beforeEach((to, from, next) => {
   if (to.path !== from.path) {
     NProgress.start();
   }
-  
+
   next();
 });
 

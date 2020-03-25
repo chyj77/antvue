@@ -4,6 +4,7 @@
       :selectedKeys="selectedKeys"
       :openKeys.sync="openKeys"
       mode="inline"
+      :defaultSelectedKeys="['/Ztsj']"
     >
       <template v-for="item in menuData">
         <a-menu-item
@@ -34,20 +35,6 @@ export default {
   components: {
     // "sub-menu": SubMenu
   },
-  watch: {
-    "$route.path": function(val) {
-      this.selectedKeys = this.selectedKeysMap[val];
-      this.openKeys = this.collapsed ? [] : this.openKeysMap[val];
-    },
-    collapsed(val) {
-      if (val) {
-        this.cacheOpenKeys = this.openKeys;
-        this.openKeys = [];
-      } else {
-        this.openKeys = this.cacheOpenKeys;
-      }
-    }
-  },
   data() {
     this.selectedKeysMap = {};
     this.openKeysMap = {};
@@ -64,7 +51,6 @@ export default {
     },
     getMenuData(routes = [], parentKeys = [], selectedKey) {
       const menuData = [];
-      console.log(routes);
       for (let item of routes) {
         // if (item.meta && item.meta.authority && !check(item.meta.authority)) {
         //   continue;
