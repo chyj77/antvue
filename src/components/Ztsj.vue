@@ -157,8 +157,8 @@
         pager.current = pagination.current;
         this.pagination = pager;
         this.fetch({
-          results: pagination.pageSize,
-          page: pagination.current,
+          pageSize: pagination.pageSize,
+          pageIndex: pagination.current,
           sortField: sorter.field,
           sortOrder: sorter.order,
           ...filters,
@@ -171,18 +171,20 @@
           url: global.host+'ztsj/index',
           method: 'get',
           data: {
-            results: 10,
+            pageSize: 10,
+            pageIndex: 0,
             ...params,
           },
           type: 'json',
         }).then(data => {
           const pagination = { ...this.pagination };
           // Read total count from server
-          pagination.total = data.Total;
+          pagination.total = data.totalCounts;
         //   pagination.total = 200;
           this.loading = false;
-          this.data = data.Rows;
+          this.data = data.data;
           this.pagination = pagination;
+          console.log(this.data)
         });
       },
       handleChange(value, key, column) {

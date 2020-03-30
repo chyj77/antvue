@@ -1,4 +1,4 @@
-const host = 'http://123.206.44.201/';
+const host = 'http://127.0.0.1:9090/';
 
 export default{
     host,    //地址
